@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Years With You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --sky-top:#fce8d2; --sky-mid:#f6c9ae; --sky-low:#e7b3bb;
+  --cloud:#fff8ee; --ink:#4a2e2a; --muted:#8c6355;
+  --amber:#bb5b34; --honey:#e8a85c; --card:#fffaf2;
+  --line:rgba(187,91,52,.22);
+  --shadow:0 30px 60px -30px rgba(74,46,42,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font-family:'Work Sans',sans-serif;font-weight:300;
+  background:linear-gradient(180deg,var(--sky-top),var(--sky-mid) 45%,var(--sky-low));
+  overflow-x:hidden;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:500}
+[contenteditable=true]{
+  outline:none;border-bottom:1px dashed transparent;border-radius:2px;
+  transition:.2s ease
+}
+[contenteditable=true]:hover{border-bottom-color:var(--amber)}
+[contenteditable=true]:focus{border-bottom-color:var(--amber);background:rgba(187,91,52,.06)}
+[contenteditable=true]:empty:before{content:attr(data-placeholder);color:var(--muted);opacity:.6}
+::selection{background:var(--honey);color:#3a2420}
+
+.edit-hint{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--cloud);padding:9px 18px;border-radius:999px;
+  z-index:500;font-size:.78rem;box-shadow:var(--shadow);transition:opacity .6s
+}
+.edit-hint.hide{opacity:0}
+
+.cloud-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.cloud-layer svg{position:absolute;filter:drop-shadow(0 12px 18px rgba(74,46,42,.08))}
+.c1{top:8%;left:-6%;width:38vw;min-width:280px;animation:drift 60s linear infinite;opacity:.9}
+.c2{top:22%;right:-8%;width:30vw;min-width:220px;animation:driftRev 75s linear infinite;opacity:.75}
+.c3{bottom:6%;left:8%;width:26vw;min-width:200px;animation:drift 90s linear infinite;opacity:.6}
+@keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(30px)}}
+@keyframes driftRev{0%,100%{transform:translateX(0)}50%{transform:translateX(-30px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+section{padding:100px 24px;position:relative;z-index:1}
+.section-inner{max-width:900px;margin:0 auto}
+.kicker{font-family:'Fraunces',serif;font-style:italic;color:var(--amber);font-size:1.05rem;margin-bottom:6px;display:block}
+.heading{font-size:clamp(1.8rem,4vw,2.5rem);margin:0 0 14px}
+.sub{max-width:56ch;color:var(--muted);line-height:1.7;font-size:.98rem}
+
+/* COVER */
+.hero{
+  min-height:100svh;position:relative;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:70px 20px;overflow:hidden
+}
+.cover-photo{
+  position:absolute;inset:0;z-index:0;background:#b97858;
+}
+.cover-photo img{
+  width:100%;height:100%;object-fit:cover;object-position:center 30%;
+  filter:saturate(.9) contrast(.95);
+  transform:scale(1.03)
+}
+.cover-photo:after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(35,20,17,.12),rgba(35,20,17,.38) 60%,rgba(35,20,17,.58)),
+    radial-gradient(circle at center,transparent 20%,rgba(35,20,17,.25) 100%);
+}
+.hero-content{position:relative;z-index:3;max-width:700px;color:white}
+.cover-badge{
+  display:inline-block;padding:8px 15px;border:1px solid rgba(255,255,255,.55);
+  border-radius:999px;background:rgba(255,250,242,.13);backdrop-filter:blur(8px);
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase
+}
+.glow-num{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(8rem,24vw,13rem);
+  line-height:.82;color:rgba(255,250,242,.9);
+  -webkit-text-stroke:2px rgba(255,255,255,.8);
+  text-shadow:0 18px 45px rgba(0,0,0,.28);margin-top:20px
+}
+.glow-label{font-size:.76rem;letter-spacing:.3em;color:#fff0df;text-transform:lowercase}
+.hero .names{
+  margin-top:20px;font-size:clamp(2rem,6vw,3.4rem);display:flex;align-items:center;
+  gap:.3em;flex-wrap:wrap;justify-content:center;text-shadow:0 3px 15px rgba(0,0,0,.25)
+}
+.hero .amp{color:#ffd49d;font-style:italic}
+.hero .tagline{
+  margin:16px auto 0;max-width:620px;font-size:1.03rem;line-height:1.75;
+  color:#fff8ee;text-shadow:0 2px 10px rgba(0,0,0,.25)
+}
+.date-setter{
+  margin-top:26px;display:flex;align-items:center;gap:8px;justify-content:center;
+  flex-wrap:wrap;font-size:.82rem;color:#fff4e6
+}
+.date-setter input{
+  background:rgba(255,250,242,.9);border:1px solid rgba(255,255,255,.7);
+  color:var(--ink);padding:7px 10px;border-radius:8px;font-family:inherit
+}
+.day-count{margin-top:8px;color:#ffd49d;font-size:.85rem}
+.scroll-cue{
+  position:absolute;bottom:25px;left:50%;transform:translateX(-50%);z-index:3;
+  color:#fff4e6;font-size:.7rem;letter-spacing:.22em;display:flex;flex-direction:column;
+  align-items:center;gap:8px
+}
+.scroll-cue .line{width:1px;height:28px;background:#fff4e6;animation:pulseLine 2.2s ease-in-out infinite}
+@keyframes pulseLine{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- FINAL VIDEO SECTION ---------- */
+
+.final-video-section {
+  position: relative;
+  min-height: 85vh;
+  padding: 0 !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #1d1110;
+}
+
+/* Background video */
+
+.video-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* Dark romantic overlay */
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(74,46,42,.25),
+      rgba(30,17,16,.72)
+    );
+}
+
+
+/* Text */
+
+.final-video-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(700px, 90%);
+
+  text-align: center;
+
+  color: white;
+
+  padding: 60px 20px;
+}
+
+.final-video-content .kicker {
+  color: #ffd4a8;
+  font-size: 1.1rem;
+}
+
+.final-video-title {
+  font-family: 'Fraunces', serif;
+
+  font-size: clamp(2.5rem, 7vw, 5rem);
+
+  line-height: 1.05;
+
+  margin: 12px 0 20px;
+
+  color: #fffaf2;
+
+  text-shadow:
+    0 8px 30px rgba(0,0,0,.35);
+}
+
+.final-video-text {
+  max-width: 580px;
+
+  margin: 0 auto 28px;
+
+  font-size: 1.05rem;
+
+  line-height: 1.8;
+
+  color: #fff0e2;
+}
+
+
+/* Upload button */
+
+.video-upload-btn {
+  display: inline-block;
+
+  padding: 12px 22px;
+
+  border: 1px solid rgba(255,255,255,.5);
+
+  border-radius: 30px;
+
+  color: white;
+
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(8px);
+
+  cursor: pointer;
+
+  font-size: .8rem;
+
+  letter-spacing: .05em;
+
+  transition: all .3s ease;
+}
+
+.video-upload-btn:hover {
+  background: rgba(255,255,255,.22);
+
+  transform: translateY(-2px);
+}
+
+.video-upload-btn input {
+  display: none;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .final-video-section {
+    min-height: 75vh;
+  }
+
+  .final-video-title {
+    font-size: 2.8rem;
+  }
+
+  .final-video-text {
+    font-size: .95rem;
+  }
+
+}
+/* BEST MOMENT */
+.best-moment{
+  background:var(--card);border-radius:22px;padding:14px;box-shadow:var(--shadow);
+  border:1px solid var(--line);margin-top:40px;display:grid;
+  grid-template-columns:1.1fr 1fr;overflow:hidden
+}
+.bm-photo{
+  position:relative;border-radius:16px;overflow:hidden;min-height:340px;
+  background:repeating-linear-gradient(135deg,var(--sky-mid) 0 14px,var(--sky-top) 14px 28px);
+  display:flex;align-items:center;justify-content:center;cursor:pointer
+}
+.bm-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:none}
+.bm-photo img.show{display:block}
+.bm-cta{position:relative;z-index:2;text-align:center;color:var(--amber);font-size:.85rem}
+.bm-cta .plus{font-family:'Fraunces',serif;font-size:2.4rem;display:block}
+.bm-photo.has-img .bm-cta{display:none}
+.bm-reupload,.g-remove,.v-remove,.journal-remove{
+  position:absolute;background:rgba(74,46,42,.72);color:var(--cloud);
+  border:0;cursor:pointer
+}
+.bm-reupload{bottom:12px;right:12px;z-index:3;padding:6px 12px;border-radius:20px;font-size:.72rem;display:none}
+.bm-photo.has-img .bm-reupload{display:block}
+.bm-text{padding:38px 40px;display:flex;flex-direction:column;justify-content:center}
+.bm-date{font-size:.72rem;letter-spacing:.16em;color:var(--amber);margin-bottom:10px}
+.bm-title{font-size:1.7rem;margin:0 0 12px}
+.bm-story{font-size:.96rem;line-height:1.75;color:var(--muted)}
+@media(max-width:760px){.best-moment{grid-template-columns:1fr}.bm-photo{min-height:260px}}
+
+/* JOURNAL */
+.journal{
+  background:var(--card);border-radius:18px;padding:44px;box-shadow:var(--shadow);
+  border:1px solid var(--line);margin-top:40px
+}
+.journal-quote{font-family:'Fraunces',serif;font-size:1.5rem;font-style:italic;color:var(--amber);line-height:1.5;margin-bottom:18px}
+.journal-body{font-family:'Fraunces',serif;font-size:1.18rem;line-height:1.85;min-height:140px}
+.journal-sign{margin-top:20px;text-align:right;color:var(--muted);font-style:italic;font-family:'Fraunces',serif}
+@media(max-width:600px){.journal{padding:32px 26px}}
+
+/* ---------- 10 PHOTO MEMORIES ---------- */
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.memory-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.7),
+      rgba(246,201,174,0.6)
+    );
+
+  border: 1.5px dashed var(--amber);
+  box-shadow: var(--shadow);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.memory-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px -25px rgba(74,46,42,.5);
+}
+
+.memory-card input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.memory-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.memory-card.has-photo img {
+  display: block;
+}
+
+.memory-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--amber);
+  text-align: center;
+  pointer-events: none;
+}
+
+.memory-placeholder span {
+  font-family: 'Fraunces', serif;
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.memory-placeholder small {
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.memory-card.has-photo .memory-placeholder {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .memory-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* YEARS */
+.years-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.year-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 22px;box-shadow:var(--shadow)}
+.year-mark{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--sky-mid);-webkit-text-stroke:1.5px var(--amber);line-height:1;margin-bottom:10px}
+.year-title{font-family:'Fraunces',serif;font-size:1.25rem;margin-bottom:8px}
+.year-desc{font-size:.9rem;color:var(--muted);line-height:1.6}
+@media(max-width:760px){.years-grid{grid-template-columns:1fr}}
+
+/* ---------- OUR 10 PHOTOS ---------- */
+
+.our-photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.photo-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-6px) rotate(.3deg);
+  box-shadow: 0 30px 60px -30px rgba(74,46,42,.5);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  transition: transform .6s ease;
+}
+
+.photo-card:hover img {
+  transform: scale(1.06);
+}
+
+
+/* little number on each photo */
+
+.photo-card::after {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+
+  content: '';
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: rgba(255,250,242,.88);
+
+  box-shadow: 0 4px 12px rgba(74,46,42,.15);
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+
+  .our-photos {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+}/* ---------- OUR 10 PHOTOS ---------- */
+
+.our-photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.photo-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-6px) rotate(.3deg);
+  box-shadow: 0 30px 60px -30px rgba(74,46,42,.5);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  transition: transform .6s ease;
+}
+
+.photo-card:hover img {
+  transform: scale(1.06);
+}
+
+
+/* little number on each photo */
+
+.photo-card::after {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+
+  content: '';
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: rgba(255,250,242,.88);
+
+  box-shadow: 0 4px 12px rgba(74,46,42,.15);
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+
+  .our-photos {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+}
+
+/* JOURNAL PHOTO */
+.journal-photo-wrap{
+  margin:34px auto 0;max-width:520px;position:relative
+}
+.journal-photo{
+  min-height:280px;border:1.5px dashed var(--line);border-radius:18px;
+  background:rgba(255,250,242,.55);display:flex;align-items:center;justify-content:center;
+  overflow:hidden;cursor:pointer;position:relative
+}
+.journal-photo img{width:100%;height:100%;min-height:280px;object-fit:cover;display:none}
+.journal-photo.has-img img{display:block}
+.journal-photo.has-img .journal-photo-prompt{display:none}
+.journal-photo-prompt{color:var(--amber);font-size:.85rem}
+.journal-photo-prompt strong{display:block;font-family:'Fraunces',serif;font-size:2rem;margin-bottom:5px}
+.journal-photo-change{
+  position:absolute;bottom:10px;right:10px;z-index:2;border:0;border-radius:20px;
+  background:rgba(74,46,42,.75);color:white;padding:7px 12px;cursor:pointer;display:none
+}
+.journal-photo.has-img .journal-photo-change{display:block}
+
+/* CINEMATIC BACKGROUND VIDEO */
+.video-memory{
+  min-height:78svh;padding:0;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center
+}
+.bg-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#241613
+}
+.video-memory:after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,15,12,.28),rgba(30,15,12,.68))
+}
+.video-content{position:relative;z-index:2;text-align:center;color:white;padding:70px 24px;max-width:700px}
+.video-content .kicker{color:#ffd49d}
+.video-content .heading{color:white;text-shadow:0 4px 20px rgba(0,0,0,.3)}
+.video-content .sub{color:#fff3e5;margin-left:auto;margin-right:auto}
+.video-upload{
+  display:inline-block;margin-top:24px;padding:11px 18px;border-radius:999px;
+  background:rgba(255,250,242,.15);border:1px solid rgba(255,255,255,.55);
+  color:white;cursor:pointer;backdrop-filter:blur(8px);font-family:inherit
+}
+.video-note{margin-top:12px;font-size:.72rem;color:#ffe9d4}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(74,46,42,.88);z-index:1000;display:none;align-items:center;justify-content:center;padding:40px}
+.lightbox.show{display:flex}
+.lightbox img{max-width:90vw;max-height:85vh;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+.lightbox-close{position:absolute;top:26px;right:32px;color:white;font-size:1.6rem;background:none;border:0;cursor:pointer}
+
+/* SECRET */
+.letter-section{display:flex;justify-content:center;text-align:center}
+.envelope-stage{margin:36px auto 0;max-width:560px}
+.envelope{position:relative;width:100%;aspect-ratio:16/10;cursor:pointer;filter:drop-shadow(0 20px 30px rgba(74,46,42,.25))}
+.env-back{position:absolute;inset:0;background:linear-gradient(160deg,var(--honey),var(--amber));border-radius:12px}
+.env-flap{position:absolute;top:0;left:0;width:100%;height:52%;background:linear-gradient(160deg,#d97b45,#bb5b34);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .9s cubic-bezier(.6,-.2,.2,1.2);z-index:3}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.env-seal{position:absolute;top:36%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;z-index:4;background:radial-gradient(circle at 35% 30%,var(--cloud),var(--honey) 60%,var(--amber));display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;color:var(--amber);font-size:1.3rem;font-weight:600;box-shadow:0 6px 14px rgba(74,46,42,.3);transition:.4s}
+.envelope.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+.env-note{position:absolute;left:6%;right:6%;bottom:6%;height:0;z-index:2;background:var(--card);border-radius:8px;overflow:hidden;transition:height .7s ease .15s,bottom .7s ease .15s}
+.envelope.open .env-note{height:88%;bottom:10%}
+.env-hint{margin-top:14px;font-size:.78rem;color:var(--amber)}
+.letter-card{display:none;background:var(--card);border-radius:16px;padding:38px 36px;margin-top:24px;box-shadow:var(--shadow);max-width:560px;text-align:left}
+.letter-card.show{display:block;animation:fadeUp .6s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.letter-body{font-family:'Fraunces',serif;font-size:1.2rem;line-height:1.75;min-height:100px}
+.letter-sign{margin-top:18px;text-align:right;font-family:'Fraunces',serif;font-style:italic;color:var(--amber)}
+
+footer{text-align:center;padding:60px 24px 50px;color:var(--amber);font-size:.85rem}
+input[type=file]{display:none}
+@media(max-width:600px){section{padding:70px 18px}.hero{padding:60px 16px}.hero .tagline{font-size:.95rem}}
+</style>
+</head>
+
+<body>
+
+<div class="edit-hint" id="editHint">
+  Click text to edit · add your photos, journal picture and background video
+</div>
+
+<!-- COVER -->
+<section class="hero">
+  <div class="cover-photo">
+    <img src="Picsart_24-08-13_12-45-04-930.jpg" alt="Our cover photo">
+  </div>
+  <div class="cloud-layer">
+    <svg class="c1" viewBox="0 0 200 100"><path d="M20 70 Q10 70 10 58 Q10 46 24 46 Q26 30 44 30 Q62 30 66 46 Q80 46 80 60 Q80 70 68 70 Z" fill="#fff8ee"/></svg>
+    <svg class="c2" viewBox="0 0 200 100"><path d="M30 68 Q18 68 18 55 Q18 42 34 42 Q37 26 58 26 Q79 26 82 44 Q98 44 98 58 Q98 68 84 68 Z" fill="#fff3e2"/></svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="cover-badge">three years · one story</div>
+    <div class="glow-num">3</div>
+    <div class="glow-label">years together, today</div>
+
+    <div class="names">
+      <span contenteditable="true">JUBI</span>
+      <span class="amp">&amp;</span>
+      <span contenteditable="true">JOYAL</span>
+    </div>
+
+    <p class="tagline" contenteditable="true">
+      Three years in, and you're still my favorite person to tell things to,
+      my calm in the noise, and the best part of every ordinary day.
+      Happy anniversary, love.
+    </p>
+
+    <div class="date-setter">
+      <span>the day it all began:</span>
+      <input type="date" id="startDate">
+    </div>
+    <div class="day-count" id="dayCount"></div>
+  </div>
+
+  <div class="scroll-cue"><span>scroll</span><div class="line"></div></div>
+</section>
+
+<!-- BEST MOMENT -->
+<section>
+  <div class="section-inner">
+    <span class="kicker">the one we keep coming back to</span>
+    <h2 class="heading">Our best moment</h2>
+    </div>
+  </div>
+</section>
+<!-- OUR 10 PHOTOS -->
+<div class="our-photos">
+
+  <div class="photo-card">
+    <img src="Picsart_24-08-12_13-21-50-651.jpg" alt="Our memory 1">
+  </div>
+
+  <div class="photo-card">
+    <img src="20251220_141210.jpg" alt="Our memory 2">
+  </div>
+
+  <div class="photo-card">
+    <img src="20251220_141314.jpg" alt="Our memory 3">
+  </div>
+
+  <div class="photo-card">
+    <img src="IMG_20260909_220723.jpg" alt="Our memory 4">
+  </div>
+
+  <div class="photo-card">
+    <img src="IMG-20240210-WA0008.jpg" alt="Our memory 5">
+  </div>
+
+  <div class="photo-card">
+    <img src="IMG-20250328-WA0070.jpg" alt="Our memory 6">
+  </div>
+
+  <div class="photo-card">
+    <img src="IMG-20260824-WA0078.jpg" alt="Our memory 7">
+  </div>
+
+  <div class="photo-card">
+    <img src="Snapchat-1493394835.jpg" alt="Our memory 8">
+  </div>
+
+  </div>
+
+</div>
+</section>
+    </div>
+  </div>
+</section>
+
+<!-- THOUGHTS -->
+<section>
+  <div class="section-inner">
+    <span class="kicker">just for you to read</span>
+    <h2 class="heading">My thoughts, three years in</h2>
+    <p class="sub"> This is the part they'll remember most.</p>
+
+    <div class="journal">
+      <div class="journal-quote" contenteditable="true">
+        To My Dear Charuu ,
+      </div>
+      <div class="journal-body" contenteditable="true">
+        Babe , We survive 3 years babe , hehehe . i love you , always love you babe . i want to live this lifetime with you .
+        namma kore thallu pidich , kore solve cheyth , ivida vare ethi . inniyum namma survive cheyuuto . ennik ninna mathi .
+        njn ninna kore shokam akkit end , i know . sorry for that . but i will be there for you okke.
+        i have so many dreams with you . kore karyamm orumich cheyyan end . kore nammuk needi edukan end , i always working hard for that .
+        ninna lifelong happy akkan njn endavum
+
+      </div>
+      <div class="journal-sign" contenteditable="true">— all my love</div>
+    </div>
+  </div>
+</section>
+
+<!-- YEARS -->
+<section>
+  <div class="section-inner">
+    <span class="kicker">how we got to three</span>
+    <h2 class="heading">Year by year</h2>
+
+    <div class="years-grid">
+      <div class="year-card">
+        <div class="year-mark">1</div>
+        <div class="year-title" contenteditable="true">Learning each other</div>
+        <div class="year-desc" contenteditable="true">Namma angotum ingotum nannyit manasillaki , hehe . i found myt gem.</div>
+      </div>
+      <div class="year-card">
+        <div class="year-mark">2</div>
+        <div class="year-title" contenteditable="true">Building something real</div>
+        <div class="year-desc" contenteditable="true">kore thallu pidichittum namma survive cheyth , we figured it out this year.</div>
+      </div>
+      <div class="year-card">
+        <div class="year-mark">3</div>
+        <div class="year-title" contenteditable="true">Still choosing this</div>
+        <div class="year-desc" contenteditable="true">We have a life to build , we work for that , this year we are matured about our life.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- FINAL VIDEO SECTION -->
+<section id="videos" class="final-video-section">
+
+  <div class="video-background">
+    <video id="backgroundVideo"
+           autoplay
+           muted
+           loop
+           playsinline>
+      <source src="VID-20251226-WA0053.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="video-overlay"></div>
+
+  <div class="final-video-content">
+
+    <span class="kicker">one last memory</span>
+
+    <h2 class="final-video-title">
+      Three years in motion
+    </h2>
+
+    <p class="final-video-text" contenteditable="true">
+      Some moments are too beautiful to stay in photographs.
+      This is one of ours.
+    </p>
+
+    <label class="video-upload-btn">
+      + change our video
+      <input type="file"
+             id="backgroundVideoInput"
+             accept="video/*">
+    </label>
+
+  </div>
+
+</section>
+
+<footer contenteditable="true">
+  happy 3rd anniversary — here's to every year after this one
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <img id="lightboxImg" src="" alt="Memory">
+</div>
+
+<script>
+  /* ---------- BACKGROUND VIDEO ---------- */
+
+const backgroundVideo =
+  document.getElementById('backgroundVideo');
+
+const backgroundVideoInput =
+  document.getElementById('backgroundVideoInput');
+
+backgroundVideoInput.addEventListener('change', (e) => {
+
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const videoURL = URL.createObjectURL(file);
+
+  backgroundVideo.src = videoURL;
+
+  backgroundVideo.load();
+
+  backgroundVideo.play().catch(() => {});
+
+});
+/* hide editing hint */
+setTimeout(()=>document.getElementById('editHint').classList.add('hide'),5500);
+
+/* DAY COUNTER */
+const startInput=document.getElementById('startDate');
+const dayCount=document.getElementById('dayCount');
+
+function updateDays(){
+  if(!startInput.value)return;
+  const start=new Date(startInput.value+'T00:00:00');
+  const now=new Date();
+  const diffDays=Math.max(0,Math.floor((now-start)/(1000*60*60*24)));
+  dayCount.textContent=`that's ${diffDays.toLocaleString()} days, and counting`;
+}
+const def=new Date();
+def.setFullYear(def.getFullYear()-3);
+startInput.value=def.toISOString().slice(0,10);
+updateDays();
+startInput.addEventListener('change',updateDays);
+
+/* BEST MOMENT */
+const bmPhoto=document.getElementById('bmPhoto');
+const bmImg=document.getElementById('bmImg');
+const bmInput=document.getElementById('bmInput');
+const bmReupload=document.getElementById('bmReupload');
+
+bmPhoto.addEventListener('click',()=>{
+  if(!bmPhoto.classList.contains('has-img'))bmInput.click();
+});
+bmReupload.addEventListener('click',e=>{
+  e.stopPropagation();bmInput.click();
+});
+bmInput.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  bmImg.src=URL.createObjectURL(file);
+  bmImg.classList.add('show');
+  bmPhoto.classList.add('has-img');
+});
+
+/* 10 MEMORY SLOTS */
+const memoryGrid=document.getElementById('memoryGrid');
+
+for(let i=1;i<=10;i++){
+  const slot=document.createElement('div');
+  slot.className='memory-slot';
+  slot.innerHTML=`
+    <div class="slot-content">
+      <span class="slot-number">${i}</span>
+      add photo
+    </div>
+    <img alt="Memory ${i}">
+    <button class="memory-remove" title="Remove photo">✕</button>
+    <input type="file" accept="image/*">
+  `;
+
+  const img=slot.querySelector('img');
+  const input=slot.querySelector('input');
+  const remove=slot.querySelector('.memory-remove');
+
+  slot.addEventListener('click',e=>{
+    if(e.target===remove)return;
+    if(!slot.classList.contains('has-img'))input.click();
+    else openLightbox(img.src);
+  });
+
+  input.addEventListener('change',e=>{
+    const file=e.target.files[0];if(!file)return;
+    img.src=URL.createObjectURL(file);
+    slot.classList.add('has-img');
+    input.value='';
+  });
+
+  remove.addEventListener('click',e=>{
+    e.stopPropagation();
+    img.src='';
+    slot.classList.remove('has-img');
+  });
+
+  memoryGrid.appendChild(slot);
+}
+
+/* JOURNAL PHOTO */
+const journalPhoto=document.getElementById('journalPhoto');
+const journalImg=document.getElementById('journalImg');
+const journalInput=document.getElementById('journalInput');
+const journalChange=document.getElementById('journalChange');
+
+journalPhoto.addEventListener('click',e=>{
+  if(e.target===journalChange)return;
+  if(!journalPhoto.classList.contains('has-img'))journalInput.click();
+});
+journalChange.addEventListener('click',e=>{
+  e.stopPropagation();journalInput.click();
+});
+journalInput.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  journalImg.src=URL.createObjectURL(file);
+  journalPhoto.classList.add('has-img');
+  journalInput.value='';
+});
+
+/* ENVELOPE */
+const envelope=document.getElementById('envelope');
+const letterCard=document.getElementById('letterCard');
+const envHint=document.getElementById('envHint');
+
+envelope.addEventListener('click',()=>{
+  envelope.classList.toggle('open');
+  if(envelope.classList.contains('open')){
+    setTimeout(()=>letterCard.classList.add('show'),500);
+    envHint.textContent='click to seal it again';
+  }else{
+    letterCard.classList.remove('show');
+    envHint.textContent='click to open';
+  }
+});
+
+/* LIGHTBOX */
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=document.getElementById('lightboxImg');
+
+function openLightbox(src){
+  lightboxImg.src=src;
+  lightbox.classList.add('show');
+}
+document.getElementById('lightboxClose').addEventListener('click',()=>lightbox.classList.remove('show'));
+lightbox.addEventListener('click',e=>{
+  if(e.target===lightbox)lightbox.classList.remove('show');
+});
+
+/* BACKGROUND VIDEO */
+const videoInput=document.getElementById('videoInput');
+const videoUploadBtn=document.getElementById('videoUploadBtn');
+const bgVideo=document.getElementById('bgVideo');
+const videoNote=document.getElementById('videoNote');
+
+videoUploadBtn.addEventListener('click',()=>videoInput.click());
+
+videoInput.addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+
+  bgVideo.src=URL.createObjectURL(file);
+  bgVideo.play().catch(()=>{});
+  videoNote.textContent='your video is playing in the background';
+  videoUploadBtn.textContent='+ change our video';
+  videoInput.value='';
+});
+</script>
+</body>
+</html>
